@@ -2,6 +2,7 @@
 *         text=auto
 # Detect correct language
 *.gradle  linguist-language=Groovy
+*.h       linguist-language=C++
 
 # These are explicitly windows files and should use crlf
 *.bat           text eol=crlf
