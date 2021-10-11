@@ -1,0 +1,21 @@
+stages:
+  - build
+  - package
+
+build:
+  stage: build
+  needs: []
+  script:
+    - ./gradlew assemble
+
+package:
+  stage: package
+  needs:
+    - package
+  script:
+    - ./gradlew installReleaseLinux
+    - cp build/install/main/release/linux/* .
+  artifacts:
+    paths:
+      - u8cc
+      - lib
