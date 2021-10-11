@@ -14,7 +14,7 @@ application {
 tasks.withType(CppCompile).configureEach {
     compilerArgs.addAll toolChain.map { toolChain ->
         if (toolChain in [ Gcc, Clang ]) {
-            return ['-std=c++17', -O2']
+            return ['-std=c++17', '-O2']
         } else if (toolChain in VisualCpp) {
             return ['/EHsc', '/std:c++17', '/O2']
         }
