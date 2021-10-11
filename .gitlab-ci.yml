@@ -2,6 +2,12 @@ stages:
   - build
   - package
 
+default:
+  image: openjdk:11-jdk
+  tags:
+    - docker
+    - linux
+
 build:
   stage: build
   needs: []
