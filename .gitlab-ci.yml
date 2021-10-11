@@ -16,7 +16,7 @@ build:
 package:
   stage: package
   needs:
-    - package
+    - build
   script:
     - ./gradlew installReleaseLinux
     - cp build/install/main/release/linux/* .
