@@ -1,0 +1,23 @@
+plugins {
+    id 'cpp-application'
+    id 'visual-studio'
+}
+
+application {
+    targetMachines = [
+        machines.windows.x86_64,
+        machines.linux.x86_64,
+        machines.macOS.x86_64
+    ]
+}
+
+tasks.withType(CppCompile).configureEach {
+    compilerArgs.addAll toolChain.map { toolChain ->
+        if (toolChain in [ Gcc, Clang ]) {
+            return ['-std=c++17', -O2']
+        } else if (toolChain in VisualCpp) {
+            return ['/EHsc', '/std:c++17', '/O2']
+        }
+        return []
+    }
+}
