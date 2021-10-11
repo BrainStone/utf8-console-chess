@@ -3,9 +3,8 @@ stages:
   - package
 
 default:
-  image: openjdk:11-jdk
   tags:
-    - docker
+    - shell
     - linux
 
 build:
