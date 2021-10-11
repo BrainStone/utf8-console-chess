@@ -1,0 +1,7 @@
+# Auto detect text files and perform LF normalization
+*         text=auto
+# Detect correct language
+*.gradle  linguist-language=Groovy
+
+# These are explicitly windows files and should use crlf
+*.bat           text eol=crlf
