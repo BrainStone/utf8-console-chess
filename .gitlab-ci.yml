@@ -19,8 +19,8 @@ package:
     - build
   script:
     - ./gradlew installReleaseLinux
-    - cp build/install/main/release/linux/* .
+    - cp -r build/install/main/release/linux/* .
   artifacts:
     paths:
       - u8cc
-      - lib
+      - lib/*
