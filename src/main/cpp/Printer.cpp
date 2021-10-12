@@ -6,7 +6,9 @@
 #include <Windows.h>
 #endif
 
-bool supportsDoubleSizeChars() {
+Printer::Printer() : printDoubleSize(false) {}
+
+bool Printer::supportsDoubleSizeChars() {
 #ifdef _WIN32
 	return false;
 #else
@@ -14,7 +16,11 @@ bool supportsDoubleSizeChars() {
 #endif
 }
 
-bool prepareConsole() {
+void Printer::setPrintDoubleSizeChars(bool printDoubleSize) {
+	this->printDoubleSize = printDoubleSize && supportsDoubleSizeChars();
+}
+
+bool Printer::prepareConsole() {
 #ifdef _WIN32
 	HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
 
@@ -38,4 +44,20 @@ bool prepareConsole() {
 #endif
 
 	return true;
+}
+
+std::wostream& operator<<(std::wostream& stream, Printer& printer) {
+	for (std::wstring line; std::getline(printer.buffer, line);) {
+		if (printer.printDoubleSize) {
+			stream << "\033#3" << line << '\n';
+			stream << "\033#4" << line << '\n';
+		} else {
+			stream << line << '\n';
+		}
+	}
+
+	stream.flush();
+	printer.buffer.clear();
+
+	return stream;
 }

@@ -2,14 +2,22 @@
 
 #include <iostream>
 
-#include "printer.h"
+#include "Printer.h"
 
 int main() {
-	if (!prepareConsole()) {
+	Printer printer{};
+
+	if (!printer.prepareConsole()) {
 		return 1;
 	}
 
-	std::wcout << L"\033#3Test\n\033#4Test" << std::endl;
+	printer.setPrintDoubleSizeChars();
+
+	printer << L'x' << L"XXX";
+	std::wcout << printer;
+
+	printer << L"Line 1\nLine 2";
+	std::wcout << printer;
 
 	return 0;
 }
