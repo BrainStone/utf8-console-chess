@@ -5,7 +5,7 @@
 
 ChessPosition::Piece::Piece(PieceType pieceType, Color color) : data(pieceTypeAndColorToInt(pieceType, color)) {}
 
-ChessPosition::Piece::Piece(wchar_t letter) : data(letterToInt(letter)) {}
+ChessPosition::Piece::Piece(char letter) : data(letterToInt(letter)) {}
 
 ChessPosition::Piece::Piece() : Piece(PieceType::NONE, Color::EMPTY) {}
 
@@ -13,22 +13,22 @@ int8_t ChessPosition::Piece::pieceTypeAndColorToInt(PieceType pieceType, Color c
 	return static_cast<int8_t>(pieceType) * static_cast<int8_t>(color);
 }
 
-int8_t ChessPosition::Piece::letterToInt(wchar_t letter) {
+int8_t ChessPosition::Piece::letterToInt(char letter) {
 	const Color color = std::isupper(letter) ? Color::WHITE : Color::BLACK;
 	letter = std::toupper(letter);
 
 	switch (letter) {
-	case L'P':
+	case 'P':
 		return pieceTypeAndColorToInt(PieceType::PAWN, color);
-	case L'N':
+	case 'N':
 		return pieceTypeAndColorToInt(PieceType::KNIGHT, color);
-	case L'B':
+	case 'B':
 		return pieceTypeAndColorToInt(PieceType::BISHOP, color);
-	case L'R':
+	case 'R':
 		return pieceTypeAndColorToInt(PieceType::ROOK, color);
-	case L'Q':
+	case 'Q':
 		return pieceTypeAndColorToInt(PieceType::QUUEN, color);
-	case L'K':
+	case 'K':
 		return pieceTypeAndColorToInt(PieceType::KING, color);
 	default:
 		return pieceTypeAndColorToInt(PieceType::NONE, Color::EMPTY);
@@ -41,7 +41,7 @@ ChessPosition::Piece& ChessPosition::Piece::set(PieceType pieceType, Color color
 	return *this;
 }
 
-ChessPosition::Piece& ChessPosition::Piece::set(wchar_t letter) {
+ChessPosition::Piece& ChessPosition::Piece::set(char letter) {
 	data = letterToInt(letter);
 
 	return *this;
@@ -61,29 +61,29 @@ ChessPosition::Piece::Color ChessPosition::Piece::getColor() const {
 	return Color::EMPTY;
 }
 
-wchar_t ChessPosition::Piece::getUtf8ChessChar(Color backgroundColor) const {
+std::string ChessPosition::Piece::getUtf8ChessChar(Color backgroundColor) const {
 	const Color color = getColor();
 
-	if (color == Color::EMPTY) return L' ';
+	if (color == Color::EMPTY) return " ";
 
 	const PieceType type = getPieceType();
 	const bool filled = (color != backgroundColor);
 
 	switch (type) {
 	case PieceType::PAWN:
-		return filled ? L'♟' : L'♙';
+		return filled ? "♟" : "♙";
 	case PieceType::KNIGHT:
-		return filled ? L'♞' : L'♘';
+		return filled ? "♞" : "♘";
 	case PieceType::BISHOP:
-		return filled ? L'♝' : L'♗';
+		return filled ? "♝" : "♗";
 	case PieceType::ROOK:
-		return filled ? L'♜' : L'♖';
+		return filled ? "♜" : "♖";
 	case PieceType::QUUEN:
-		return filled ? L'♛' : L'♕';
+		return filled ? "♛" : "♕";
 	case PieceType::KING:
-		return filled ? L'♚' : L'♔';
+		return filled ? "♚" : "♔";
 	default:
-		return L' ';
+		return " ";
 	}
 }
 

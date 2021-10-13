@@ -5,7 +5,7 @@
 class Printer {
 private:
 	bool printDoubleSize;
-	std::wstringstream buffer;
+	std::stringstream buffer;
 
 public:
 	Printer();
@@ -29,5 +29,5 @@ public:
 		return *this;
 	}
 
-	friend std::wostream& operator<<(std::wostream& stream, Printer& printer);
+	friend std::ostream& operator<<(std::ostream& stream, Printer& printer);
 };

@@ -22,6 +22,8 @@ void Printer::setPrintDoubleSizeChars(bool printDoubleSize) {
 
 bool Printer::prepareConsole() {
 #ifdef _WIN32
+	//SetConsoleOutputCP(CP_UTF8);
+
 	HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
 
 	if (hOut == INVALID_HANDLE_VALUE) {
@@ -46,8 +48,8 @@ bool Printer::prepareConsole() {
 	return true;
 }
 
-std::wostream& operator<<(std::wostream& stream, Printer& printer) {
-	for (std::wstring line; std::getline(printer.buffer, line);) {
+std::ostream& operator<<(std::ostream& stream, Printer& printer) {
+	for (std::string line; std::getline(printer.buffer, line);) {
 		if (printer.printDoubleSize) {
 			stream << "\033#3" << line << '\n';
 			stream << "\033#4" << line << '\n';

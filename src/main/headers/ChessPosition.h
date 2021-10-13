@@ -1,6 +1,7 @@
 #pragma once
 
 #include <array>
+#include <string>
 
 class ChessPosition {
 public:
@@ -14,22 +15,22 @@ public:
 
 	public:
 		Piece(PieceType pieceType, Color color);
-		Piece(wchar_t letter);
+		Piece(char letter);
 		Piece();
 
 	private:
 		static int8_t pieceTypeAndColorToInt(PieceType pieceType, Color color);
-		static int8_t letterToInt(wchar_t letter);
+		static int8_t letterToInt(char letter);
 
 	public:
 		Piece& set(PieceType pieceType, Color color);
-		Piece& set(wchar_t letter);
+		Piece& set(char letter);
 		Piece& set();
 
 		PieceType getPieceType() const;
 		Color getColor() const;
 
-		wchar_t getUtf8ChessChar(Color backgroundColor) const;
+		std::string getUtf8ChessChar(Color backgroundColor) const;
 	};
 
 private:
