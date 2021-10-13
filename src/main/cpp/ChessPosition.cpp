@@ -90,7 +90,7 @@ std::string ChessPosition::Piece::getUtf8ChessChar(Color backgroundColor) const 
 ChessPosition ChessPosition::getStartingPosition() {
 	ChessPosition position{};
 
-	for (char file = 'A'; file <= 'H'; ++file) {
+	for (char file = 'a'; file <= 'h'; ++file) {
 		position.setPiece({Piece::PieceType::PAWN, Piece::Color::WHITE}, file, 2)
 		    .setPiece({Piece::PieceType::PAWN, Piece::Color::BLACK}, file, 7);
 	}
@@ -105,13 +105,13 @@ ChessPosition& ChessPosition::setPiece(Piece piece, char file, uint8_t rank) {
 }
 
 ChessPosition::Piece& ChessPosition::getPiece(char file, uint8_t rank) {
-	file = std::toupper(file);
+	file = std::tolower(file);
 
-	return position[file - 'A'][rank - 1];
+	return position[file - 'a'][rank - 1];
 }
 
 const ChessPosition::Piece& ChessPosition::getPiece(char file, uint8_t rank) const {
-	file = std::toupper(file);
+	file = std::tolower(file);
 
-	return position[file - 'A'][rank - 1];
+	return position[file - 'a'][rank - 1];
 }

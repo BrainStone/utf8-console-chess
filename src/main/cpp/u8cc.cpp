@@ -27,7 +27,7 @@ int stlMain(std::string&& cmd, std::vector<std::string>&& args) {
 	ChessPosition position{ChessPosition::getStartingPosition()};
 
 	for (uint8_t rank = 8; rank >= 1; --rank) {
-		for (char file = 'A'; file <= 'H'; ++file) {
+		for (char file = 'a'; file <= 'h'; ++file) {
 			printer << position.getPiece(file, rank).getUtf8ChessChar(ChessPosition::Piece::Color::BLACK);
 		}
 
