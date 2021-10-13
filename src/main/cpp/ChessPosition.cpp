@@ -90,6 +90,20 @@ std::string ChessPosition::Piece::getUtf8ChessChar(Color backgroundColor) const 
 ChessPosition ChessPosition::getStartingPosition() {
 	ChessPosition position{};
 
+	Piece::Color color;
+	for (uint8_t rank = 1; rank <= 8; rank += 7) {
+		color = (rank == 1) ? Piece::Color::WHITE : Piece::Color::BLACK;
+
+		position.setPiece({Piece::PieceType::ROOK, color}, 'a', rank)
+		    .setPiece({Piece::PieceType::KNIGHT, color}, 'b', rank)
+		    .setPiece({Piece::PieceType::BISHOP, color}, 'c', rank)
+		    .setPiece({Piece::PieceType::QUEEN, color}, 'd', rank)
+		    .setPiece({Piece::PieceType::KING, color}, 'e', rank)
+		    .setPiece({Piece::PieceType::BISHOP, color}, 'f', rank)
+		    .setPiece({Piece::PieceType::KNIGHT, color}, 'g', rank)
+		    .setPiece({Piece::PieceType::ROOK, color}, 'h', rank);
+	}
+
 	for (char file = 'a'; file <= 'h'; ++file) {
 		position.setPiece({Piece::PieceType::PAWN, Piece::Color::WHITE}, file, 2)
 		    .setPiece({Piece::PieceType::PAWN, Piece::Color::BLACK}, file, 7);
