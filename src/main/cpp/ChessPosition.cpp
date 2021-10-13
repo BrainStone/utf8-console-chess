@@ -27,7 +27,7 @@ int8_t ChessPosition::Piece::letterToInt(char letter) {
 	case 'R':
 		return pieceTypeAndColorToInt(PieceType::ROOK, color);
 	case 'Q':
-		return pieceTypeAndColorToInt(PieceType::QUUEN, color);
+		return pieceTypeAndColorToInt(PieceType::QUEEN, color);
 	case 'K':
 		return pieceTypeAndColorToInt(PieceType::KING, color);
 	default:
@@ -78,7 +78,7 @@ std::string ChessPosition::Piece::getUtf8ChessChar(Color backgroundColor) const 
 		return filled ? "♝" : "♗";
 	case PieceType::ROOK:
 		return filled ? "♜" : "♖";
-	case PieceType::QUUEN:
+	case PieceType::QUEEN:
 		return filled ? "♛" : "♕";
 	case PieceType::KING:
 		return filled ? "♚" : "♔";

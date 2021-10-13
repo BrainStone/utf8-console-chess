@@ -7,7 +7,7 @@ class ChessPosition {
 public:
 	class Piece {
 	public:
-		enum class PieceType : int8_t { NONE = 0, PAWN = 1, KNIGHT, BISHOP, ROOK, QUUEN, KING };
+		enum class PieceType : int8_t { NONE = 0, PAWN = 1, KNIGHT, BISHOP, ROOK, QUEEN, KING };
 		enum class Color : int8_t { BLACK = -1, EMPTY = 0, WHITE = 1 };
 
 	private:
