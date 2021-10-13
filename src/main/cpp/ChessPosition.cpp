@@ -35,17 +35,33 @@ int8_t ChessPosition::Piece::letterToInt(wchar_t letter) {
 	}
 }
 
-ChessPosition::Piece::PieceType ChessPosition::Piece::getPieceType() {
+ChessPosition::Piece& ChessPosition::Piece::set(PieceType pieceType, Color color) {
+	data = pieceTypeAndColorToInt(pieceType, color);
+
+	return *this;
+}
+
+ChessPosition::Piece& ChessPosition::Piece::set(wchar_t letter) {
+	data = letterToInt(letter);
+
+	return *this;
+}
+
+ChessPosition::Piece& ChessPosition::Piece::set() {
+	return set(PieceType::NONE, Color::EMPTY);
+}
+
+ChessPosition::Piece::PieceType ChessPosition::Piece::getPieceType() const {
 	return static_cast<PieceType>(std::abs(data));
 }
 
-ChessPosition::Piece::Color ChessPosition::Piece::getColor() {
+ChessPosition::Piece::Color ChessPosition::Piece::getColor() const {
 	if (data < 0) return Color::BLACK;
 	if (data > 0) return Color::WHITE;
 	return Color::EMPTY;
 }
 
-wchar_t ChessPosition::Piece::getUtf8ChessChar(Color backgroundColor) {
+wchar_t ChessPosition::Piece::getUtf8ChessChar(Color backgroundColor) const {
 	const Color color = getColor();
 
 	if (color == Color::EMPTY) return L' ';
@@ -69,4 +85,33 @@ wchar_t ChessPosition::Piece::getUtf8ChessChar(Color backgroundColor) {
 	default:
 		return L' ';
 	}
+}
+
+ChessPosition ChessPosition::getStartingPosition() {
+	ChessPosition position{};
+
+	for (char file = 'A'; file <= 'H'; ++file) {
+		position.setPiece({Piece::PieceType::PAWN, Piece::Color::WHITE}, file, 2)
+		    .setPiece({Piece::PieceType::PAWN, Piece::Color::BLACK}, file, 7);
+	}
+
+	return position;
+}
+
+ChessPosition& ChessPosition::setPiece(Piece piece, char file, uint8_t rank) {
+	getPiece(file, rank) = piece;
+
+	return *this;
+}
+
+ChessPosition::Piece& ChessPosition::getPiece(char file, uint8_t rank) {
+	file = std::toupper(file);
+
+	return position[file - 'A'][rank - 1];
+}
+
+const ChessPosition::Piece& ChessPosition::getPiece(char file, uint8_t rank) const {
+	file = std::toupper(file);
+
+	return position[file - 'A'][rank - 1];
 }

@@ -5,6 +5,7 @@
 #include <iostream>
 #include <locale>
 
+#include "ChessPosition.h"
 #include "Printer.h"
 
 int main(int argc, char* argv[]) {
@@ -39,13 +40,16 @@ int stlWMain(std::wstring&& cmd, std::vector<std::wstring>&& args) {
 
 	printer.setPrintDoubleSizeChars();
 
-	printer << L"My name is: " << cmd << L'\n';
-	std::wcout << printer;
+	ChessPosition position{ChessPosition::getStartingPosition()};
 
-	printer << L"My parameters are:\n";
-	for (const std::wstring& arg : args) {
-		printer << L" - " << arg << L'\n';
+	for (uint8_t rank = 1; rank <= 8; ++rank) {
+		for (char file = 'A'; file <= 'H'; ++file) {
+			printer << position.getPiece(file, rank).getUtf8ChessChar(ChessPosition::Piece::Color::BLACK);
+		}
+
+		printer << L'\n';
 	}
+
 	std::wcout << printer;
 
 	return 0;
