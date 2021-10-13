@@ -14,10 +14,10 @@ int main(int argc, char* argv[]) {
 	args.reserve(argc - 1);
 	args.assign(argv + 1, argv + argc);
 
-	return stdMain(std::move(cmd), std::move(args));
+	return stlMain(std::move(cmd), std::move(args));
 }
 
-int stdMain(std::string&& cmd, std::vector<std::string>&& args) {
+int stlMain(std::string&& cmd, std::vector<std::string>&& args) {
 	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
 
 	std::wstring wcmd = converter.from_bytes(cmd);
@@ -27,10 +27,10 @@ int stdMain(std::string&& cmd, std::vector<std::string>&& args) {
 	std::transform(args.cbegin(), args.cend(), std::back_inserter(wargs),
 	               [&converter](const std::string& str) { return converter.from_bytes(str); });
 
-	return stdWMain(std::move(wcmd), std::move(wargs));
+	return stlWMain(std::move(wcmd), std::move(wargs));
 }
 
-int stdWMain(std::wstring&& cmd, std::vector<std::wstring>&& args) {
+int stlWMain(std::wstring&& cmd, std::vector<std::wstring>&& args) {
 	Printer printer{};
 
 	if (!printer.prepareConsole()) {
