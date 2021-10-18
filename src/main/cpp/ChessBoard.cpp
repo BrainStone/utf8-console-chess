@@ -52,4 +52,6 @@ std::ostream& operator<<(std::ostream& stream, const ChessBoard& board) {
 	}
 
 	stream << '\n';
+
+	return stream;
 }
