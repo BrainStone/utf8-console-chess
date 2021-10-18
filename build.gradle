@@ -21,3 +21,14 @@ tasks.withType(CppCompile).configureEach {
         return []
     }
 }
+
+tasks.withType(AbstractLinkTask).configureEach {
+    linkerArgs.addAll toolChain.map { toolChain ->
+        if (toolChain in Gcc || toolChain in Clang) {
+            return ['-std=c++17']
+        } else if (toolChain in VisualCpp) {
+            return ['/std:c++17']
+        }
+        return []
+    }
+}
