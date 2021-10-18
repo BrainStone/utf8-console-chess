@@ -1,7 +1,8 @@
 #pragma once
 
+#include <ostream>
+
 #include "ChessPosition.h"
-#include "Printer.h"
 
 class ChessBoard {
 private:
@@ -12,5 +13,5 @@ public:
 	ChessBoard(const ChessPosition& position, bool whitePerspective = true);
 	ChessBoard(bool whitePerspective = true);
 
-	friend Printer& operator<<(Printer& printer, const ChessBoard& board);
+	friend std::ostream& operator<<(std::ostream& stream, const ChessBoard& board);
 };

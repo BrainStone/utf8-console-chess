@@ -26,7 +26,9 @@ int stlMain(std::string&& cmd, std::vector<std::string>&& args) {
 
 	std::cout << '\n';
 
-	printer << ChessBoard{true};
+	ChessBoard board{true};
+
+	printer << board;
 	std::cout << printer << "\n\n";
 
 	printer << ChessBoard{false};
