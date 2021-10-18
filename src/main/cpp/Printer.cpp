@@ -22,8 +22,6 @@ void Printer::setPrintDoubleSizeChars(bool printDoubleSize) {
 
 bool Printer::prepareConsole() {
 #ifdef _WIN32
-	//SetConsoleOutputCP(CP_UTF8);
-
 	HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
 
 	if (hOut == INVALID_HANDLE_VALUE) {
@@ -41,6 +39,11 @@ bool Printer::prepareConsole() {
 
 	if (!SetConsoleMode(hOut, dwMode)) {
 		std::cerr << "Error in SetConsoleMode (" << GetLastError() << ')' << std::endl;
+		return false;
+	}
+
+	if (!SetConsoleOutputCP(CP_UTF8)) {
+		std::cerr << "Error in SetConsoleOutputCP (" << GetLastError() << ')' << std::endl;
 		return false;
 	}
 #endif
