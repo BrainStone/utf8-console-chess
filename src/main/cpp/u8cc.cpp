@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#include "ChessPosition.h"
+#include "ChessBoard.h"
 #include "Printer.h"
 
 int main(int argc, char* argv[]) {
@@ -24,17 +24,13 @@ int stlMain(std::string&& cmd, std::vector<std::string>&& args) {
 
 	printer.setPrintDoubleSizeChars();
 
-	ChessPosition position{ChessPosition::getStartingPosition()};
+	std::cout << '\n';
 
-	for (uint8_t rank = 8; rank >= 1; --rank) {
-		for (char file = 'a'; file <= 'h'; ++file) {
-			printer << position.getPiece(file, rank).getUtf8ChessChar(ChessPosition::Piece::Color::BLACK);
-		}
+	printer << ChessBoard{true};
+	std::cout << printer << "\n\n";
 
-		printer << '\n';
-	}
-
-	std::cout << printer;
+	printer << ChessBoard{false};
+	std::cout << printer << std::flush;
 
 	return 0;
 }
