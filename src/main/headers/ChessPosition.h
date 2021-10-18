@@ -30,7 +30,7 @@ public:
 		PieceType getPieceType() const;
 		Color getColor() const;
 
-		std::string getUtf8ChessChar(Color backgroundColor) const;
+		std::string_view getUtf8ChessChar(Color backgroundColor) const;
 	};
 
 private:

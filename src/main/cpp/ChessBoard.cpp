@@ -1,12 +1,11 @@
 #include "ChessBoard.h"
 
-const std::string reset = "\033[m";
+const std::string_view reset = "\033[m";
 
-const std::string whiteCellStr = "\033[27m";
-const std::string blackCellStr = "\033[7m";
+const std::string_view whiteCellStr = "\033[27m";
+const std::string_view blackCellStr = "\033[7m";
 
-const std::string halfCell = "▐";
-const std::string emptyCell = " ";
+const std::string_view halfCell = "▐";
 
 ChessBoard::ChessBoard(const ChessPosition& position, bool whitePerspective)
     : position(position), whitePerspective(whitePerspective) {}

@@ -61,7 +61,7 @@ ChessPosition::Piece::Color ChessPosition::Piece::getColor() const {
 	return Color::EMPTY;
 }
 
-std::string ChessPosition::Piece::getUtf8ChessChar(Color backgroundColor) const {
+std::string_view ChessPosition::Piece::getUtf8ChessChar(Color backgroundColor) const {
 	const Color color = getColor();
 
 	if (color == Color::EMPTY) return " ";
