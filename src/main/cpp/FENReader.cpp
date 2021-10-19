@@ -7,7 +7,9 @@ using namespace std::string_literals;
 namespace FENReader {
 
 ChessPosition parseFEN(const std::string& input) {
-	return parseFEN(std::istringstream{input});
+	std::istringstream inputStream{input};
+
+	return parseFEN(inputStream);
 }
 
 ChessPosition parseFEN(std::istream& input) {
@@ -26,6 +28,9 @@ ChessPosition parseFEN(std::istream& input) {
 	while (input) {
 		read = input.get();
 
+		// Check stream state after reading
+		if (!input) break;
+
 		if (read == ' ') {
 			if (file != 'i') throw FENParseException{"Premature end of rank", file, rank};
 			if (rank != 1) throw FENParseException{"Premature end of position (too little ranks)", file, rank};
@@ -37,8 +42,12 @@ ChessPosition parseFEN(std::istream& input) {
 
 			file += read - '0';
 
-			if (file > 'i')
-				throw FENParseException{"Too many empty squares ("s + read + ')', file - (read - '0'), rank};
+			if (file > 'i') {
+				// Undo addition
+				file -= read - '0';
+
+				throw FENParseException{"Too many empty squares ("s + read + ')', file, rank};
+			}
 
 			wasDigit = true;
 		} else {
