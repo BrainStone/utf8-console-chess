@@ -15,7 +15,7 @@ int8_t ChessPosition::Piece::pieceTypeAndColorToInt(PieceType pieceType, Color c
 
 int8_t ChessPosition::Piece::letterToInt(char letter) {
 	const Color color = std::isupper(letter) ? Color::WHITE : Color::BLACK;
-	letter = std::toupper(letter);
+	letter = (char)std::toupper(letter);
 
 	switch (letter) {
 	case 'P':
@@ -119,13 +119,13 @@ ChessPosition& ChessPosition::setPiece(Piece piece, char file, uint8_t rank) {
 }
 
 ChessPosition::Piece& ChessPosition::getPiece(char file, uint8_t rank) {
-	file = std::tolower(file);
+	file = (char)std::tolower(file);
 
 	return position[file - 'a'][rank - 1];
 }
 
 const ChessPosition::Piece& ChessPosition::getPiece(char file, uint8_t rank) const {
-	file = std::tolower(file);
+	file = (char)std::tolower(file);
 
 	return position[file - 'a'][rank - 1];
 }

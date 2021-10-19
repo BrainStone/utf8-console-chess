@@ -15,7 +15,7 @@ int main(int argc, char* argv[]) {
 	return stlMain(std::move(cmd), std::move(args));
 }
 
-int stlMain(std::string&& cmd, std::vector<std::string>&& args) {
+int stlMain([[maybe_unused]] std::string&& cmd, [[maybe_unused]] std::vector<std::string>&& args) {
 	Printer printer{};
 
 	if (!printer.prepareConsole()) {

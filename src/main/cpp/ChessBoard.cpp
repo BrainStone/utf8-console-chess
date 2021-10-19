@@ -15,7 +15,8 @@ ChessBoard::ChessBoard(bool whitePerspective) : ChessBoard(ChessPosition::getSta
 std::ostream& operator<<(std::ostream& stream, const ChessBoard& board) {
 	using Color = ChessPosition::Piece::Color;
 
-	int x, y;
+	char x;
+	uint8_t y;
 	uint8_t rank;
 	char file;
 	bool whiteRow, whiteCell;
@@ -31,14 +32,14 @@ std::ostream& operator<<(std::ostream& stream, const ChessBoard& board) {
 			whiteCell = !((x ^ y) & 1);
 
 			stream << (whiteCell ? whiteCellStr : blackCellStr)
-			        << board.position.getPiece(file, rank).getUtf8ChessChar(whiteCell ? Color::WHITE : Color::BLACK);
+			       << board.position.getPiece(file, rank).getUtf8ChessChar(whiteCell ? Color::WHITE : Color::BLACK);
 
 			if (x != 7) {
 				stream << halfCell;
 			}
 		}
 
-		// Last cell is color inverted 
+		// Last cell is color inverted
 		stream << "\033[;" << (whiteRow ? "30m" : "37m") << "▌" << reset << '\n';
 	}
 
