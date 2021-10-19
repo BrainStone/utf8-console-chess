@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "ChessBoard.h"
+#include "FENReader.h"
 #include "Printer.h"
 
 int main(int argc, char* argv[]) {
@@ -15,7 +16,7 @@ int main(int argc, char* argv[]) {
 	return stlMain(std::move(cmd), std::move(args));
 }
 
-int stlMain([[maybe_unused]] std::string&& cmd, [[maybe_unused]] std::vector<std::string>&& args) {
+int stlMain([[maybe_unused]] std::string&& cmd, std::vector<std::string>&& args) {
 	Printer printer{};
 
 	if (!printer.prepareConsole()) {
@@ -24,14 +25,24 @@ int stlMain([[maybe_unused]] std::string&& cmd, [[maybe_unused]] std::vector<std
 
 	printer.setPrintDoubleSizeChars();
 
-	std::cout << '\n';
+	ChessPosition pos;
 
-	ChessBoard board{true};
+	try {
+		pos = FENReader::parseFEN(args.at(0));
+	} catch (const FENReader::FENParseException& e) {
+		std::cerr << "FENParseException: " << e.what() << std::endl;
 
-	printer << board;
-	std::cout << printer << "\n\n";
+		return 1;
+	} catch (const std::exception& e) {
+		std::cerr << "exception: " << e.what() << std::endl;
 
-	printer << ChessBoard{false};
+		return 1;
+	}
+
+	printer << ChessBoard{pos, true};
+	std::cout << '\n' << printer << "\n\n";
+
+	printer << ChessBoard{pos, false};
 	std::cout << printer << std::flush;
 
 	return 0;
