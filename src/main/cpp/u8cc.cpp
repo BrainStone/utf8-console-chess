@@ -7,13 +7,19 @@
 #include "Printer.h"
 
 int main(int argc, char* argv[]) {
-	std::string cmd{argv[0]};
+	try {
+		std::string cmd{argv[0]};
 
-	std::vector<std::string> args;
-	args.reserve(argc - 1);
-	args.assign(argv + 1, argv + argc);
+		std::vector<std::string> args;
+		args.reserve(argc - 1);
+		args.assign(argv + 1, argv + argc);
 
-	return stlMain(std::move(cmd), std::move(args));
+		return stlMain(std::move(cmd), std::move(args));
+	} catch (const std::exception& e) {
+		std::cerr << "unexpected exception: " << e.what() << std::endl;
+
+		return 1;
+	}
 }
 
 int stlMain([[maybe_unused]] std::string&& cmd, std::vector<std::string>&& args) {
@@ -30,11 +36,7 @@ int stlMain([[maybe_unused]] std::string&& cmd, std::vector<std::string>&& args)
 	try {
 		pos = FENReader::parseFEN(args.at(0));
 	} catch (const FENReader::FENParseException& e) {
-		std::cerr << "FENParseException: " << e.what() << std::endl;
-
-		return 1;
-	} catch (const std::exception& e) {
-		std::cerr << "exception: " << e.what() << std::endl;
+		std::cerr << "Error while parsing FEN: " << e.what() << std::endl;
 
 		return 1;
 	}
