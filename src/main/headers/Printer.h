@@ -10,7 +10,6 @@ private:
 public:
 	Printer();
 
-	bool supportsDoubleSizeChars();
 	void setPrintDoubleSizeChars(bool printDoubleSize = true);
 
 	bool prepareConsole();

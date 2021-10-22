@@ -8,16 +8,8 @@
 
 Printer::Printer() : printDoubleSize(false) {}
 
-bool Printer::supportsDoubleSizeChars() {
-#ifdef _WIN32
-	return false;
-#else
-	return true;
-#endif
-}
-
 void Printer::setPrintDoubleSizeChars(bool printDoubleSize) {
-	this->printDoubleSize = printDoubleSize && supportsDoubleSizeChars();
+	this->printDoubleSize = printDoubleSize;
 }
 
 bool Printer::prepareConsole() {
