@@ -72,7 +72,7 @@ int stlMain(std::string&& cmd, std::vector<std::string>&& args) {
 		return EXIT_FAILURE;
 	}
 
-	printer << ChessBoard{pos, invertBoard};
+	printer << ChessBoard{pos, !invertBoard};
 	std::cout << printer << std::flush;
 
 	return EXIT_SUCCESS;
