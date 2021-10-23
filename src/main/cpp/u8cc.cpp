@@ -104,7 +104,7 @@ bool parseArgs(const std::string& cmd, const std::vector<std::string>& args, boo
 			doubleSize = true;
 		} else if ((*it == "-i") || (*it == "--invert-board")) {
 			invertBoard = true;
-		} else if (*it == "--stdin") {
+		} else if (*it == "--") {
 			// Ignore this arg but stop parsing flags
 			++it;
 
