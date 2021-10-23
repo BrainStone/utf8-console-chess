@@ -19,6 +19,10 @@ A little application to render FEN positions in the console with UTF-8 character
   -i, --invert-board         print the board from black's perspective
 ```
 
+Example:
+
+![u8cc](https://user-images.githubusercontent.com/4106544/138535221-9ee3b80a-3a9b-40c8-95c6-a0f6ddbe624f.png)
+
 *Note*: Only the position part until the first space in the FEN string is required. The rest after it is ignored anyways.
 
 ## Building
