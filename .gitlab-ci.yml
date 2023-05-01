@@ -10,6 +10,7 @@ default:
 
 variables:
   CMAKE_COLOR_MAKEFILE: "ON"
+  COLOR: "always"
 
 build:
   stage: build
