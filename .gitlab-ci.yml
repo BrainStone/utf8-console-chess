@@ -9,7 +9,7 @@ default:
     - linux
 
 variables:
-  CMAKE_COLOR_MAKEFILE: ON
+  CMAKE_COLOR_MAKEFILE: "ON"
 
 build:
   stage: build
