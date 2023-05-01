@@ -27,7 +27,7 @@ FetchContent_MakeAvailable(googletest)
 project(u8cc_test CXX)
 
 enable_testing()
-add_test(${PROJECT_NAME} ${EXECUTABLE_OUTPUT_PATH}/${PROJECT_NAME})
+add_test(${PROJECT_NAME} ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${PROJECT_NAME})
 
 # these instructions search the directory tree when cmake is
 # invoked and put all files that match the pattern in the variable `test_sources`
