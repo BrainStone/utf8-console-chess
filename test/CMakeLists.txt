@@ -24,14 +24,16 @@ FetchContent_MakeAvailable(googletest)
 ################################
 # Tests
 ################################
-project(constexpr_cmath_test CXX)
+project(u8cc_test CXX)
 
 enable_testing()
 add_test(${PROJECT_NAME} ${PROJECT_NAME})
 
-# Add test cpp file
-add_executable(${PROJECT_NAME} test_trig.cpp)
-# Link test executable against gtest & gtest_main
-target_link_libraries(${PROJECT_NAME} PRIVATE gtest gtest_main constexpr_cmath)
+# these instructions search the directory tree when cmake is
+# invoked and put all files that match the pattern in the variable `test_sources`
+file(GLOB_RECURSE test_sources *.cpp *.h)
 
-set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3 -ffast-math")
+# Add test cpp file
+add_executable(${PROJECT_NAME} ${test_sources})
+# Link test executable against gtest & gtest_main
+target_link_libraries(${PROJECT_NAME} PRIVATE gtest gtest_main u8cc)
