@@ -26,8 +26,14 @@ test:
     - build
   script:
     - cd build
-    - ctest --progress --verbose
+    - ctest --progress --verbose --gtest_output=xml:test-results.xml
   allow_failure: true
+  artifacts:
+    when: always
+    paths:
+      - build/test-results.xml
+    reports:
+      junit: build/test-results.xml
 
 package:
   stage: package
