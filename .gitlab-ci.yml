@@ -30,14 +30,14 @@ test:
     - build
   script:
     - cd build
-    - ctest --progress --verbose --gtest_output=xml:test-results.xml
+    - ctest --progress --verbose -D XML_OUTPUT_DIR=reports
   allow_failure: true
   artifacts:
     when: always
     paths:
-      - build/test-results.xml
+      - build/reports/*.xml
     reports:
-      junit: build/test-results.xml
+      junit: build/reports/*.xml
 
 package:
   stage: package
