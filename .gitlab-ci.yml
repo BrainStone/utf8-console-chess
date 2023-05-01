@@ -26,7 +26,7 @@ test:
     - build
   script:
     - cd build
-    - ctest --progress --verbose
+    - ctest -C bin --progress --verbose
   allow_failure: true
 
 package:
