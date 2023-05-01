@@ -8,6 +8,9 @@ default:
     - shell
     - linux
 
+variables:
+  CMAKE_COLOR_MAKEFILE: ON
+
 build:
   stage: build
   needs: []
