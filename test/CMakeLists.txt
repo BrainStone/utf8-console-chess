@@ -27,7 +27,7 @@ FetchContent_MakeAvailable(googletest)
 project(u8cc_test CXX)
 
 enable_testing()
-add_test(${PROJECT_NAME} ${PROJECT_NAME})
+add_test(${PROJECT_NAME} test/${PROJECT_NAME})
 
 # these instructions search the directory tree when cmake is
 # invoked and put all files that match the pattern in the variable `test_sources`

@@ -26,7 +26,7 @@ test:
     - build
   script:
     - cd build
-    - ctest --output-on-failure
+    - ctest --progress --verbose
   allow_failure: true
 
 package:
@@ -34,6 +34,7 @@ package:
   needs:
     - build
   script:
+    - cd build
     - make install DESTDIR=$CI_PROJECT_DIR/install
     - cp -r install/* .
   artifacts:
