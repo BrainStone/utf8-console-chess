@@ -36,4 +36,4 @@ file(GLOB_RECURSE test_sources *.cpp *.h)
 # Add test cpp file
 add_executable(${PROJECT_NAME} ${test_sources})
 # Link test executable against gtest & gtest_main
-target_link_libraries(${PROJECT_NAME} PRIVATE gtest gtest_main u8cc)
+target_link_libraries(${PROJECT_NAME} PRIVATE gtest gtest_main $<TARGET_OBJECTS:u8cc>)
