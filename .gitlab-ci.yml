@@ -10,7 +10,7 @@ build:
     - cmake ..
     - make
   artifacts:
-    expires_in: 10 mins
+    expire_in: 10 mins
     paths:
       - build/*
 
