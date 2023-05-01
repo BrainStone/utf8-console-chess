@@ -12,24 +12,31 @@ set(CMAKE_VERBOSE_MAKEFILE ON CACHE BOOL "ON" FORCE)
 # these instructions search the directory tree when cmake is
 # invoked and put all files that match the pattern in the variable `sources`
 file(GLOB_RECURSE sources src/*.cpp src/*.h)
+# Exclude file containing main function
+set(main_source "src/u8cc.cpp")
+list(REMOVE_ITEM sources ${main_source})
 
 ###############################################################################
 ## target definitions #########################################################
 ###############################################################################
 
 # add the data to the target, so it becomes visible in some IDE
-add_executable(${PROJECT_NAME} ${sources})
+add_library(${PROJECT_NAME}_lib STATIC ${sources})
 
 if (MSVC)
-    target_compile_options(${PROJECT_NAME} PRIVATE /EHsc /W4 /WX)
-    target_link_options(${PROJECT_NAME} PRIVATE /EHsc /W4 /WX)
+    target_compile_options(${PROJECT_NAME}_lib PRIVATE /EHsc /W4 /WX)
+    target_link_options(${PROJECT_NAME}_lib PRIVATE /EHsc /W4 /WX)
 else ()
-    target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Wpedantic -Werror)
-    target_link_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Wpedantic -Werror)
+    target_compile_options(${PROJECT_NAME}_lib PRIVATE -Wall -Wextra -Wpedantic -Werror)
+    target_link_options(${PROJECT_NAME}_lib PRIVATE -Wall -Wextra -Wpedantic -Werror)
 endif ()
 
 # this lets me include files relative to the root src dir with a <> pair
-target_include_directories(${PROJECT_NAME} PUBLIC src)
+target_include_directories(${PROJECT_NAME}_lib PUBLIC src)
+
+# add the executable target
+add_executable(${PROJECT_NAME} ${main_source})
+target_link_libraries(${PROJECT_NAME} PRIVATE ${PROJECT_NAME}_lib)
 
 ###############################################################################
 ## dependencies ###############################################################
