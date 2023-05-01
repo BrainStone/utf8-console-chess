@@ -35,9 +35,10 @@ package:
     - build
   script:
     - cd build
-    - make install DESTDIR=$CI_PROJECT_DIR/install
-    - cp -r install/* .
+    - make install DESTDIR="$CI_PROJECT_DIR"/install
+    - cp -r "$CI_PROJECT_DIR"/install/* "$CI_PROJECT_DIR"/
   artifacts:
     paths:
       - u8cc
       - lib/*
+      - install/*
