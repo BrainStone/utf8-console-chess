@@ -40,20 +40,39 @@
 peda-session-*.txt
 
 #############################
-# Gradle
+# CMake
 #############################
 
-.gradle
-build/
+**/cmake-build-debug/
+**/cmake-build-release/
+**/CMakeCache.txt
+**/cmake_install.cmake
+**/install_manifest.txt
+**/CMakeFiles/
+**/CTestTestfile.cmake
+**/Makefile
+**/*.cbp
+**/CMakeScripts
+**/compile_commands.json
 
-# Ignore Gradle GUI config
-gradle-app.setting
+include/divisible/*
 
-# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
-!gradle-wrapper.jar
 
-# Cache of project
-.gradletasknamecache
+#############################
+# IntelliJ
+#############################
+
+.idea/*.xml
+
+build/**/*
+
+#############################
+# Build stuff
+#############################
+
+include/*
+lib/*
+bin/*
 
 #############################
 # VisualStudio
@@ -380,6 +399,3 @@ ASALocalRun/
 
 # MSBuild Binary and Structured Log
 *.binlog
-
-# Ignore Gradle build output directory
-build

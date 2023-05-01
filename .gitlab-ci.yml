@@ -11,15 +11,17 @@ build:
   stage: build
   needs: []
   script:
-    - ./gradlew assemble
+    - mkdir build && cd build
+    - cmake ..
+    - make
 
 package:
   stage: package
   needs:
     - build
   script:
-    - ./gradlew installReleaseLinux
-    - cp -r build/install/main/release/linux/* .
+    - make install DESTDIR=$CI_PROJECT_DIR/install
+    - cp -r install/* .
   artifacts:
     paths:
       - u8cc
