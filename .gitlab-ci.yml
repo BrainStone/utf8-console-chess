@@ -12,15 +12,10 @@ default:
 variables:
   CMAKE_COLOR_MAKEFILE: "ON"
   COLOR: "always"
+  BUILD_TYPE: Release
 
 # Jobs
-.parallel:
-  parallel:
-    matrix:
-      - BUILD_TYPE: [Release, Debug]
-
 build:
-  extends: .parallel
   stage: build
   needs: []
   script:
@@ -32,7 +27,6 @@ build:
       - build/*
 
 test:
-  extends: .parallel
   stage: test
   needs:
     - build
@@ -48,7 +42,6 @@ test:
       junit: build/reports/*.xml
 
 package:
-  extends: .parallel
   stage: package
   needs:
     - build
