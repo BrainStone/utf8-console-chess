@@ -27,22 +27,15 @@ Example:
 
 ## Building
 
-### Windows
+This is CMake project.
 
-Make sure you have VisualStudio installed as this is needed as the compiler.
-
-```cli
-./gradlew installReleaseWindows
-```
-
-The executable will be located in `.\build\install\main\release\windows\lib`
-
-### Linux
-
-Make sure you have `g++` or `clang++` installed that support C++17
+So all you have to do to build it is run these commands
 
 ```cli
-./gradlew installReleaseLinux
+cmake .
+make
 ```
 
-The executable will be located in `.\build\install\main\release\linux\lib`
+Then you'll have the binary u8cc in the same directory.  
+If you just want to build the binary without the tests, append the parameter
+`u8cc` to the make command.
