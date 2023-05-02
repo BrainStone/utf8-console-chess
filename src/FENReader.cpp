@@ -1,4 +1,4 @@
-#include "FENReader.h"
+#include "FENReader.hpp"
 
 #include <sstream>
 

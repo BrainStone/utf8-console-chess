@@ -2,7 +2,7 @@
 
 #include <ostream>
 
-#include "ChessPosition.h"
+#include "ChessPosition.hpp"
 
 class ChessBoard {
 private:

@@ -1,4 +1,4 @@
-#include "ChessPosition.h"
+#include "ChessPosition.hpp"
 
 #include <cctype>
 #include <cmath>

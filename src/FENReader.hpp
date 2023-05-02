@@ -4,7 +4,7 @@
 #include <stdexcept>
 #include <string>
 
-#include "ChessPosition.h"
+#include "ChessPosition.hpp"
 
 namespace FENReader {
 

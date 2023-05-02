@@ -1,12 +1,12 @@
-#include "u8cc.h"
+#include "u8cc.hpp"
 
 #include <filesystem>
 #include <fstream>
 #include <iostream>
 
-#include "ChessBoard.h"
-#include "FENReader.h"
-#include "Printer.h"
+#include "ChessBoard.hpp"
+#include "FENReader.hpp"
+#include "Printer.hpp"
 
 int main(int argc, char* argv[]) {
 	try {

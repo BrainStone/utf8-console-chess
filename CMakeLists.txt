@@ -11,7 +11,7 @@ set(CMAKE_VERBOSE_MAKEFILE ON CACHE BOOL "ON" FORCE)
 
 # these instructions search the directory tree when cmake is
 # invoked and put all files that match the pattern in the variable `sources`
-file(GLOB_RECURSE sources src/*.cpp src/*.h)
+file(GLOB_RECURSE sources src/*.cpp src/*.hpp)
 # Exclude file containing main function
 set(main_source "src/u8cc.cpp")
 list(REMOVE_ITEM sources ${main_source})
@@ -51,13 +51,13 @@ target_link_libraries(${PROJECT_NAME} PRIVATE ${PROJECT_NAME}_lib)
 #    add_definitions("-DHAS_BOOST")
 #endif ()
 #
-#target_link_libraries(${PROJECT_NAME} PUBLIC
+#target_link_libraries(${PROJECT_NAME}_lib PUBLIC
 #        ${Boost_LIBRARIES}
 #        # here you can add any library dependencies
 #        )
 
 #file(DOWNLOAD "https://raw.githubusercontent.com/aantron/better-enums/0.11.3/enum.h" "lib/better-enums/enum.h")
-#target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/lib)
+#target_include_directories(${PROJECT_NAME}_lib PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/lib)
 
 ###############################################################################
 ## testing ####################################################################
