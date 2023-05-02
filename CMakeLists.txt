@@ -41,7 +41,7 @@ include(FetchContent)
 
 FetchContent_Declare(Argumentum
    GIT_REPOSITORY https://github.com/mmahnic/argumentum.git
-   GIT_TAG master
+   GIT_TAG v0.3.2
 )
 
 set(ARGUMENTUM_BUILD_STATIC_LIBS ON CACHE BOOL "" FORCE)
@@ -56,8 +56,8 @@ FetchContent_MakeAvailable(Argumentum)
 add_library(${PROJECT_NAME}_lib STATIC ${sources})
 
 if (MSVC)
-    target_compile_options(${PROJECT_NAME}_lib PRIVATE /EHsc /W4 /WX)
-    target_link_options(${PROJECT_NAME}_lib PRIVATE /EHsc /W4 /WX)
+    target_compile_options(${PROJECT_NAME}_lib PRIVATE /EHsc /W3 /WX)
+    target_link_options(${PROJECT_NAME}_lib PRIVATE /EHsc /W3 /WX)
 else ()
     target_compile_options(${PROJECT_NAME}_lib PRIVATE -Wall -Wextra -Wpedantic -Werror)
     target_link_options(${PROJECT_NAME}_lib PRIVATE -Wall -Wextra -Wpedantic -Werror)

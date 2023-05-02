@@ -26,7 +26,8 @@ ChessPosition parseFEN(std::istream& input) {
 	char read;
 
 	while (input) {
-		read = input.get();
+		// Some implementations of std::istream.get return int instead of char.
+		read = static_cast<char>(input.get());
 
 		// Check stream state after reading
 		if (!input) break;

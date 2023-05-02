@@ -29,7 +29,7 @@ project(u8cc_test CXX)
 
 # these instructions search the directory tree when cmake is
 # invoked and put all files that match the pattern in the variable `test_sources`
-file(GLOB_RECURSE test_sources *.cpp *.h)
+file(GLOB_RECURSE test_sources *.cpp *.hpp)
 
 # Create test executable and let be discoverable 
 enable_testing()
