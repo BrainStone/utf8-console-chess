@@ -2,6 +2,8 @@
 
 A little application to render [FEN](https://www.chess.com/terms/fen-chess) positions in the console with UTF-8 characters.
 
+Ambitions to turn into a fully fledged chess application that supports external chess engines.
+
 ## Usage
 
 ```
@@ -21,7 +23,7 @@ A little application to render FEN positions in the console with UTF-8 character
 
 Example:
 
-![Usage](https://user-images.githubusercontent.com/4106544/138535221-9ee3b80a-3a9b-40c8-95c6-a0f6ddbe624f.png)
+![Example Usage](https://user-images.githubusercontent.com/4106544/138535221-9ee3b80a-3a9b-40c8-95c6-a0f6ddbe624f.png)
 
 *Note*: Only the position part until the first space in the FEN string is required. The rest after it is ignored anyways.
 
