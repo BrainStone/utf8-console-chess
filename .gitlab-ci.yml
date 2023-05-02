@@ -30,7 +30,7 @@ test:
     - build
   script:
     - cd build
-    - ctest --progress --verbose -D XML_OUTPUT_DIR=reports
+    - ctest --progress --verbose
   allow_failure: true
   artifacts:
     when: always

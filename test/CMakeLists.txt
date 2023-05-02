@@ -27,14 +27,14 @@ FetchContent_MakeAvailable(googletest)
 ################################
 project(u8cc_test CXX)
 
-enable_testing()
-add_test(${PROJECT_NAME} ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${PROJECT_NAME})
-
 # these instructions search the directory tree when cmake is
 # invoked and put all files that match the pattern in the variable `test_sources`
 file(GLOB_RECURSE test_sources *.cpp *.h)
 
-# Add test cpp file
+# Create test executable and let be discoverable 
+enable_testing()
 add_executable(${PROJECT_NAME} ${test_sources})
+gtest_discover_tests(${PROJECT_NAME} XML_OUTPUT_DIR ${CMAKE_BINARY_DIR}/reports)
+
 # Link test executable against gtest & gtest_main
 target_link_libraries(${PROJECT_NAME} PRIVATE gtest gtest_main u8cc_lib)
