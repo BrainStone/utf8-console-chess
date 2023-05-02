@@ -1,53 +1,53 @@
 # Basics/global stuff
 stages:
-  - build
-  - test
-  - package
+    - build
+    - test
+    - package
 
 default:
-  tags:
-    - shell
-    - linux
+    tags:
+        - shell
+        - linux
 
 variables:
-  CMAKE_COLOR_MAKEFILE: "ON"
-  COLOR: "always"
-  BUILD_TYPE: Release
+    CMAKE_COLOR_MAKEFILE: "ON"
+    COLOR: "always"
+    BUILD_TYPE: Release
 
 # Jobs
 build:
-  stage: build
-  needs: []
-  script:
-    - cmake -B build -DCMAKE_BUILD_TYPE=$BUILD_TYPE
-    - cmake --build build --config $BUILD_TYPE
-  artifacts:
-    expire_in: 10 mins
-    paths:
-      - build/*
+    stage: build
+    needs: []
+    script:
+        - cmake -B build -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+        - cmake --build build --config $BUILD_TYPE
+    artifacts:
+        expire_in: 10 mins
+        paths:
+            - build/*
 
 test:
-  stage: test
-  needs:
-    - build
-  script:
-    - cd build
-    - ctest -C $BUILD_TYPE
-  allow_failure: true
-  artifacts:
-    when: always
-    paths:
-      - build/reports/*.xml
-    reports:
-      junit: build/reports/*.xml
+    stage: test
+    needs:
+        - build
+    script:
+        - cd build
+        - ctest -C $BUILD_TYPE
+    allow_failure: true
+    artifacts:
+        when: always
+        paths:
+            - build/reports/*.xml
+        reports:
+            junit: build/reports/*.xml
 
 package:
-  stage: package
-  needs:
-    - build
-  script:
-    - cmake --install build --config $BUILD_TYPE --prefix "$CI_PROJECT_DIR"/install
-    - cp -r "$CI_PROJECT_DIR"/install/install/* "$CI_PROJECT_DIR"/
-  artifacts:
-    paths:
-      - u8cc
+    stage: package
+    needs:
+        - build
+    script:
+        - cmake --install build --config $BUILD_TYPE --prefix "$CI_PROJECT_DIR"/install
+        - cp -r "$CI_PROJECT_DIR"/install/install/* "$CI_PROJECT_DIR"/
+    artifacts:
+        paths:
+            - u8cc
