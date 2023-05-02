@@ -20,6 +20,8 @@ list(REMOVE_ITEM sources ${main_source})
 ## dependencies ###############################################################
 ###############################################################################
 
+include(FetchContent)
+
 ## this defines the variables Boost_LIBRARIES that contain all library names
 ## that we need to link to
 #find_package(Boost 1.64.0 REQUIRED)
@@ -36,6 +38,15 @@ list(REMOVE_ITEM sources ${main_source})
 
 #file(DOWNLOAD "https://raw.githubusercontent.com/aantron/better-enums/0.11.3/enum.h" "lib/better-enums/enum.h")
 #target_include_directories(${PROJECT_NAME}_lib PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/lib)
+
+FetchContent_Declare(Argumentum
+   GIT_REPOSITORY https://github.com/mmahnic/argumentum.git
+   GIT_TAG master
+)
+
+set(ARGUMENTUM_BUILD_STATIC_LIBS ON CACHE BOOL "" FORCE)
+
+FetchContent_MakeAvailable(Argumentum)
 
 ###############################################################################
 ## target definitions #########################################################
@@ -57,7 +68,7 @@ target_include_directories(${PROJECT_NAME}_lib PUBLIC src)
 
 # add the executable target
 add_executable(${PROJECT_NAME} ${main_source})
-target_link_libraries(${PROJECT_NAME} PRIVATE ${PROJECT_NAME}_lib)
+target_link_libraries(${PROJECT_NAME} PRIVATE ${PROJECT_NAME}_lib Argumentum::argumentum)
 
 ###############################################################################
 ## testing ####################################################################
