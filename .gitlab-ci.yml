@@ -44,6 +44,7 @@ test:
     when: always
     paths:
       - build/reports/*.xml
+      - build/*
     reports:
       junit: build/reports/*.xml
 
@@ -53,7 +54,7 @@ package:
   needs:
     - build
   script:
-    - cmake --install build --config $BUILD_TYPE DESTDIR="$CI_PROJECT_DIR"/install
+    - cmake --install build --config $BUILD_TYPE --prefix "$CI_PROJECT_DIR"/install
     - cp -r "$CI_PROJECT_DIR"/install/usr/local/install/* "$CI_PROJECT_DIR"/
   artifacts:
     paths:
