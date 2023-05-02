@@ -17,28 +17,6 @@ set(main_source "src/u8cc.cpp")
 list(REMOVE_ITEM sources ${main_source})
 
 ###############################################################################
-## target definitions #########################################################
-###############################################################################
-
-# add the data to the target, so it becomes visible in some IDE
-add_library(${PROJECT_NAME}_lib STATIC ${sources})
-
-if (MSVC)
-    target_compile_options(${PROJECT_NAME}_lib PRIVATE /EHsc /W4 /WX)
-    target_link_options(${PROJECT_NAME}_lib PRIVATE /EHsc /W4 /WX)
-else ()
-    target_compile_options(${PROJECT_NAME}_lib PRIVATE -Wall -Wextra -Wpedantic -Werror)
-    target_link_options(${PROJECT_NAME}_lib PRIVATE -Wall -Wextra -Wpedantic -Werror)
-endif ()
-
-# this lets me include files relative to the root src dir with a <> pair
-target_include_directories(${PROJECT_NAME}_lib PUBLIC src)
-
-# add the executable target
-add_executable(${PROJECT_NAME} ${main_source})
-target_link_libraries(${PROJECT_NAME} PRIVATE ${PROJECT_NAME}_lib)
-
-###############################################################################
 ## dependencies ###############################################################
 ###############################################################################
 
@@ -58,6 +36,28 @@ target_link_libraries(${PROJECT_NAME} PRIVATE ${PROJECT_NAME}_lib)
 
 #file(DOWNLOAD "https://raw.githubusercontent.com/aantron/better-enums/0.11.3/enum.h" "lib/better-enums/enum.h")
 #target_include_directories(${PROJECT_NAME}_lib PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/lib)
+
+###############################################################################
+## target definitions #########################################################
+###############################################################################
+
+# We need the project as a lib, so we can run test code against it
+add_library(${PROJECT_NAME}_lib STATIC ${sources})
+
+if (MSVC)
+    target_compile_options(${PROJECT_NAME}_lib PRIVATE /EHsc /W4 /WX)
+    target_link_options(${PROJECT_NAME}_lib PRIVATE /EHsc /W4 /WX)
+else ()
+    target_compile_options(${PROJECT_NAME}_lib PRIVATE -Wall -Wextra -Wpedantic -Werror)
+    target_link_options(${PROJECT_NAME}_lib PRIVATE -Wall -Wextra -Wpedantic -Werror)
+endif ()
+
+# this lets me include files relative to the root src dir with a <> pair
+target_include_directories(${PROJECT_NAME}_lib PUBLIC src)
+
+# add the executable target
+add_executable(${PROJECT_NAME} ${main_source})
+target_link_libraries(${PROJECT_NAME} PRIVATE ${PROJECT_NAME}_lib)
 
 ###############################################################################
 ## testing ####################################################################
