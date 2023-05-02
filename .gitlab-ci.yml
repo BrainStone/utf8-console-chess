@@ -11,14 +11,14 @@ default:
 variables:
   CMAKE_COLOR_MAKEFILE: "ON"
   COLOR: "always"
+  BUILD_TYPE: Release
 
 build:
   stage: build
   needs: []
   script:
-    - mkdir build && cd build
-    - cmake ..
-    - make
+    - cmake -B build -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+    - cmake --build build --config $BUILD_TYPE
   artifacts:
     expire_in: 10 mins
     paths:
@@ -30,7 +30,7 @@ test:
     - build
   script:
     - cd build
-    - ctest --progress --verbose
+    - ctest -C $BUILD_TYPE --verbose
   allow_failure: true
   artifacts:
     when: always
@@ -44,8 +44,7 @@ package:
   needs:
     - build
   script:
-    - cd build
-    - make install DESTDIR="$CI_PROJECT_DIR"/install
+    - cmake --install build --config $BUILD_TYPE DESTDIR="$CI_PROJECT_DIR"/install
     - cp -r "$CI_PROJECT_DIR"/install/usr/local/install/* "$CI_PROJECT_DIR"/
   artifacts:
     paths:
