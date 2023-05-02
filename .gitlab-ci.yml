@@ -1,5 +1,6 @@
 stages:
   - build
+  - test
   - package
 
 default:
@@ -7,20 +8,45 @@ default:
     - shell
     - linux
 
+variables:
+  CMAKE_COLOR_MAKEFILE: "ON"
+  COLOR: "always"
+
 build:
   stage: build
   needs: []
   script:
-    - ./gradlew assemble
+    - mkdir build && cd build
+    - cmake ..
+    - make
+  artifacts:
+    expire_in: 10 mins
+    paths:
+      - build/*
+
+test:
+  stage: test
+  needs:
+    - build
+  script:
+    - cd build
+    - ctest --progress --verbose
+  allow_failure: true
+  artifacts:
+    when: always
+    paths:
+      - build/reports/*.xml
+    reports:
+      junit: build/reports/*.xml
 
 package:
   stage: package
   needs:
     - build
   script:
-    - ./gradlew installReleaseLinux
-    - cp -r build/install/main/release/linux/* .
+    - cd build
+    - make install DESTDIR="$CI_PROJECT_DIR"/install
+    - cp -r "$CI_PROJECT_DIR"/install/usr/local/install/* "$CI_PROJECT_DIR"/
   artifacts:
     paths:
       - u8cc
-      - lib/*

@@ -1,4 +1,4 @@
-#include "ChessBoard.h"
+#include "ChessBoard.hpp"
 
 const std::string_view reset = "\033[m";
 
