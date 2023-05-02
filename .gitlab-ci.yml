@@ -12,10 +12,21 @@ default:
 variables:
     CMAKE_COLOR_MAKEFILE: "ON"
     COLOR: "always"
-    BUILD_TYPE: Release
 
-# Jobs
-build:
+# Template Jobs
+.release:
+    variables:
+        BUILD_TYPE: Release
+    needs:
+        - build:release
+
+.debug:
+    variables:
+        BUILD_TYPE: Debug
+    needs:
+        - build:debug
+
+.build:
     stage: build
     needs: []
     script:
@@ -24,12 +35,10 @@ build:
     artifacts:
         expire_in: 10 mins
         paths:
-            - build/*
+            - build/*    
 
-test:
+.test:
     stage: test
-    needs:
-        - build
     script:
         - cd build
         - ctest -C $BUILD_TYPE
@@ -41,13 +50,42 @@ test:
         reports:
             junit: build/reports/*.xml
 
-package:
+.package:
     stage: package
-    needs:
-        - build
     script:
         - cmake --install build --config $BUILD_TYPE --prefix "$CI_PROJECT_DIR"/install
         - cp -r "$CI_PROJECT_DIR"/install/install/* "$CI_PROJECT_DIR"/
     artifacts:
         paths:
             - u8cc
+
+# Jobs
+build:release:
+    extends:
+        - .release
+        - .build
+
+build:debug:
+    extends:
+        - .debug
+        - .build
+
+test:release:
+    extends:
+        - .release
+        - .test
+
+test:debug:
+    extends:
+        - .debug
+        - .test
+
+package:release:
+    extends:
+        - .release
+        - .package
+
+package:debug:
+    extends:
+        - .debug
+        - .package
