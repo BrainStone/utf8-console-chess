@@ -38,13 +38,12 @@ test:
     - build
   script:
     - cd build
-    - ctest -C $BUILD_TYPE --verbose
+    - ctest -C $BUILD_TYPE
   allow_failure: true
   artifacts:
     when: always
     paths:
       - build/reports/*.xml
-      - build/*
     reports:
       junit: build/reports/*.xml
 
