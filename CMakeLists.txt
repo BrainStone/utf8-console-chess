@@ -13,7 +13,7 @@ set(CMAKE_VERBOSE_MAKEFILE ON CACHE BOOL "ON" FORCE)
 # invoked and put all files that match the pattern in the variable `sources`
 file(GLOB_RECURSE sources src/*.cpp src/*.hpp)
 # Exclude file containing main function
-set(main_source "src/u8cc.cpp")
+file(GLOB_RECURSE main_source src/u8cc.cpp)
 list(REMOVE_ITEM sources ${main_source})
 
 ###############################################################################
@@ -57,7 +57,7 @@ add_library(common INTERFACE)
 
 if (MSVC)
     target_compile_options(common INTERFACE /EHsc /W3 /WX)
-    target_link_options(common INTERFACE /EHsc /W3 /WX)
+    target_link_options(common INTERFACE /WX)
 else ()
     target_compile_options(common INTERFACE -Wall -Wextra -Wpedantic -Werror)
     target_link_options(common INTERFACE -Wall -Wextra -Wpedantic -Werror)
@@ -71,6 +71,12 @@ target_link_libraries(${PROJECT_NAME}_lib PRIVATE common)
 # add the executable target
 add_executable(${PROJECT_NAME} ${main_source})
 target_link_libraries(${PROJECT_NAME} PRIVATE common ${PROJECT_NAME}_lib Argumentum::argumentum)
+
+if (MSVC)
+	#target_compile_options(${PROJECT_NAME} PRIVATE -Werror=unused-parameter)
+else ()
+	target_compile_options(${PROJECT_NAME} PRIVATE -Wno-unused-parameter)
+endif ()
 
 ###############################################################################
 ## testing ####################################################################
