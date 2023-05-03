@@ -15,7 +15,7 @@ int main(int argc, char* argv[]) {
 	try {
 		const std::string_view cmd = argv[0];
 
-		bool useFile = false;
+		// bool useFile = false;
 		bool doubleSize = false;
 		bool invertBoard = false;
 
@@ -27,6 +27,7 @@ int main(int argc, char* argv[]) {
 		parser.config().program(cmd).description(
 		    "A little application to render FEN positions in the console with UTF-8 characters.");
 		params.add_parameter(file, "--file", "-f")
+		    .nargs(1)
 		    .metavar("FILE")
 		    .help(
 		        "Instead of from the arguments, read the FEN from FILE, or when FILE is -, read from standard input.");
@@ -34,9 +35,12 @@ int main(int argc, char* argv[]) {
 		params.add_parameter(doubleSize, "-d", "--double-size")
 		    .help("Print the chess board in a larger font. This may not be supported by all consoles.");
 		params.add_parameter(invertBoard, "-i", "--invert-board").help("Print the board from black's perspective.");
-		params.add_parameter(fen).metavar("FEN").help("The FEN provided as a single string");
+		params.add_parameter(fen, "FEN").maxargs(1).metavar("FEN").help("The FEN provided as a single string");
 
-		if (!parser.parse_args(argc, argv, 1)) {
+		auto parse_result = parser.parse_args(argc, argv, 1);
+
+		if (!parse_result) {
+			// return parse_result.errors.empty() ? EXIT_SUCCESS : EXIT_FAILURE;
 			return EXIT_FAILURE;
 		}
 
@@ -73,7 +77,7 @@ int main(int argc, char* argv[]) {
 				pos = FENReader::parseFEN(*fen);
 			} else {
 				std::cerr << "Missing FEN\n\n";
-				// printUsage(std::cerr, cmd);
+				std::cerr << parser.getConfig().usage();
 
 				return EXIT_FAILURE;
 			}
