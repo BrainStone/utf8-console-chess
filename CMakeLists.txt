@@ -52,23 +52,25 @@ FetchContent_MakeAvailable(Argumentum)
 ## target definitions #########################################################
 ###############################################################################
 
-# We need the project as a lib, so we can run test code against it
-add_library(${PROJECT_NAME}_lib STATIC ${sources})
+# Add common compiler flags
+add_library(common INTERFACE)
 
 if (MSVC)
-    target_compile_options(${PROJECT_NAME}_lib PRIVATE /EHsc /W3 /WX)
-    target_link_options(${PROJECT_NAME}_lib PRIVATE /EHsc /W3 /WX)
+    target_compile_options(common INTERFACE /EHsc /W3 /WX)
+    target_link_options(common INTERFACE /EHsc /W3 /WX)
 else ()
-    target_compile_options(${PROJECT_NAME}_lib PRIVATE -Wall -Wextra -Wpedantic -Werror)
-    target_link_options(${PROJECT_NAME}_lib PRIVATE -Wall -Wextra -Wpedantic -Werror)
+    target_compile_options(common INTERFACE -Wall -Wextra -Wpedantic -Werror)
+    target_link_options(common INTERFACE -Wall -Wextra -Wpedantic -Werror)
 endif ()
 
-# this lets me include files relative to the root src dir with a <> pair
+# We need the project as a lib, so we can run test code against it
+add_library(${PROJECT_NAME}_lib STATIC ${sources})
 target_include_directories(${PROJECT_NAME}_lib PUBLIC src)
+target_link_libraries(${PROJECT_NAME}_lib PRIVATE common)
 
 # add the executable target
 add_executable(${PROJECT_NAME} ${main_source})
-target_link_libraries(${PROJECT_NAME} PRIVATE ${PROJECT_NAME}_lib Argumentum::argumentum)
+target_link_libraries(${PROJECT_NAME} PRIVATE common ${PROJECT_NAME}_lib Argumentum::argumentum)
 
 ###############################################################################
 ## testing ####################################################################
