@@ -15,7 +15,7 @@ int main(int argc, char* argv[]) {
 	try {
 		const std::string_view cmd = argv[0];
 
-		// bool useFile = false;
+		bool useStdin = false;
 		bool doubleSize = false;
 		bool invertBoard = false;
 
@@ -26,22 +26,31 @@ int main(int argc, char* argv[]) {
 		auto params = parser.params();
 		parser.config().program(cmd).description(
 		    "A little application to render FEN positions in the console with UTF-8 characters.");
-		params.add_parameter(file, "--file", "-f")
+		params.add_exclusive_group("fen source").title("FEN source").required();
+		params.add_parameter(file, "-f", "--file")
 		    .nargs(1)
 		    .metavar("FILE")
 		    .help(
 		        "Instead of from the arguments, read the FEN from FILE, or when FILE is -, read from standard input.");
-		// --stdin           equivalent to -f -
+		params.add_parameter(useStdin, "--stdin").help("Equivalent to `-f -`.");
+		params.add_parameter(fen, "-F", "--fen").nargs(1).metavar("FEN").help("The FEN provided as a single string");
+		params.end_group();
 		params.add_parameter(doubleSize, "-d", "--double-size")
 		    .help("Print the chess board in a larger font. This may not be supported by all consoles.");
 		params.add_parameter(invertBoard, "-i", "--invert-board").help("Print the board from black's perspective.");
-		params.add_parameter(fen, "FEN").maxargs(1).metavar("FEN").help("The FEN provided as a single string");
+		params.add_default_help_option();
 
 		auto parse_result = parser.parse_args(argc, argv, 1);
 
 		if (!parse_result) {
-			// return parse_result.errors.empty() ? EXIT_SUCCESS : EXIT_FAILURE;
-			return EXIT_FAILURE;
+			const bool error = parse_result.errors_were_shown();
+			std::ostream& out = error ? std::cerr : std::cout;
+
+			if (!parse_result.help_was_shown()) {
+				parser.getConfig().help_formatter("")->format(parser.getDefinition(), out);
+			}
+
+			return error ? EXIT_FAILURE : EXIT_SUCCESS;
 		}
 
 		Printer printer{};
@@ -50,36 +59,31 @@ int main(int argc, char* argv[]) {
 			return EXIT_FAILURE;
 		}
 
+		useStdin = useStdin || (file && *file == "-");
+
 		if (doubleSize) printer.setPrintDoubleSizeChars();
 
 		ChessPosition pos;
 
 		try {
-			if (file) {
-				if (*file == "-") {
-					pos = FENReader::parseFEN(std::cin);
-				} else {
-					if (!std::filesystem::exists(*file)) {
-						std::cerr << cmd << ": " << *file << ": No such file or directory" << std::endl;
+			if (useStdin) {
+				pos = FENReader::parseFEN(std::cin);
+			} else if (file) {
+				if (!std::filesystem::exists(*file)) {
+					std::cerr << cmd << ": " << *file << ": No such file or directory" << std::endl;
 
-						return EXIT_FAILURE;
-					} else if (std::filesystem::is_directory(*file)) {
-						std::cerr << cmd << ": " << *file << ": Is a directory" << std::endl;
+					return EXIT_FAILURE;
+				} else if (std::filesystem::is_directory(*file)) {
+					std::cerr << cmd << ": " << *file << ": Is a directory" << std::endl;
 
-						return EXIT_FAILURE;
-					}
-
-					std::ifstream input{*file};
-
-					pos = FENReader::parseFEN(input);
+					return EXIT_FAILURE;
 				}
+
+				std::ifstream input{*file};
+
+				pos = FENReader::parseFEN(input);
 			} else if (fen) {
 				pos = FENReader::parseFEN(*fen);
-			} else {
-				std::cerr << "Missing FEN\n\n";
-				std::cerr << parser.getConfig().usage();
-
-				return EXIT_FAILURE;
 			}
 		} catch (const FENReader::FENParseException& e) {
 			std::cerr << "Error while parsing FEN: " << e.what() << std::endl;
