@@ -15,6 +15,9 @@ int main(int argc, char* argv[]) {
 	try {
 		const std::string_view cmd = argv[0];
 
+		Printer printer{};
+
+		const bool stdinPipe = printer.isStdinPipe();
 		bool useStdin = false;
 		bool doubleSize = false;
 		bool invertBoard = false;
@@ -26,7 +29,11 @@ int main(int argc, char* argv[]) {
 		auto params = parser.params();
 		parser.config().program(cmd).description(
 		    "A little application to render FEN positions in the console with UTF-8 characters.");
-		params.add_exclusive_group("fen source").title("FEN source").required();
+		params.add_exclusive_group("fen source")
+		    .title("FEN source")
+		    .description(
+		        "Specify one of the following sources for the FEN. If stdin is a pipe, `--stdin` is used per default.")
+		    .required(!stdinPipe);
 		params.add_parameter(file, "-f", "--file")
 		    .nargs(1)
 		    .metavar("FILE")
@@ -53,12 +60,13 @@ int main(int argc, char* argv[]) {
 			return error ? EXIT_FAILURE : EXIT_SUCCESS;
 		}
 
-		Printer printer{};
-
 		if (!printer.prepareConsole()) {
 			return EXIT_FAILURE;
 		}
 
+		// If stdinPipe is true and file and fen are both not set, default to stdin mode
+		useStdin = useStdin || (stdinPipe && !file && !fen);
+		// If file is "-", set stdin mode
 		useStdin = useStdin || (file && *file == "-");
 
 		if (doubleSize) printer.setPrintDoubleSizeChars();

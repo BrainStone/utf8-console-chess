@@ -12,7 +12,8 @@ public:
 
 	void setPrintDoubleSizeChars(bool printDoubleSize = true);
 
-	bool prepareConsole();
+	bool isStdinPipe() const;
+	bool prepareConsole() const;
 
 	template <class T>
 	Printer& operator<<(const T& obj) {

@@ -1,9 +1,14 @@
 #include "Printer.hpp"
 
+#include <stdio.h>
+
 #include <iostream>
 
 #ifdef _WIN32
+#include <io.h>
 #include <Windows.h>
+#else
+#include <unistd.h>
 #endif
 
 Printer::Printer() : printDoubleSize(false) {}
@@ -12,7 +17,15 @@ void Printer::setPrintDoubleSizeChars(bool printDoubleSize) {
 	this->printDoubleSize = printDoubleSize;
 }
 
-bool Printer::prepareConsole() {
+bool Printer::isStdinPipe() const {
+#ifdef _WIN32
+	return !_isatty(_fileno(stdin));
+#else
+	return !isatty(fileno(stdin));
+#endif
+}
+
+bool Printer::prepareConsole() const {
 #ifdef _WIN32
 	HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
 
