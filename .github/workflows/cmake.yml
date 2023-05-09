@@ -13,14 +13,8 @@ jobs:
           - Release
           - Debug
         os: 
-          # Linux based
           - ubuntu-latest
-          - debian-latest
-          - fedora-latest
-          - arch-latest
-          # Others
           - windows-latest
-          - macos-latest
     
     runs-on: ${{ matrix.os }}
 

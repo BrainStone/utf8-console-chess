@@ -9,6 +9,7 @@ on:
 jobs:
   report:
     runs-on: ubuntu-latest
+    needs: CMake
     steps:
     - uses: dorny/test-reporter@v1
       with:
