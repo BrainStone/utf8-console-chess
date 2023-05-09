@@ -31,6 +31,9 @@ public:
 		Color getColor() const;
 
 		std::string_view getUtf8ChessChar(Color backgroundColor) const;
+
+		bool operator==(const Piece& rhs) const = default;
+		bool operator!=(const Piece& rhs) const = default;
 	};
 
 private:
