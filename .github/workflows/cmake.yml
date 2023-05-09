@@ -33,3 +33,10 @@ jobs:
       # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
       run: ctest -C ${{env.BUILD_TYPE}}
       continue-on-error: true
+    
+    # upload test results
+    - uses: actions/upload-artifact@v2
+      if: success() || failure()
+      with:
+        name: test-results
+        path: build/reports/**/*.xml
