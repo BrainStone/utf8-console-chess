@@ -41,5 +41,5 @@ jobs:
     - uses: actions/upload-artifact@v3
       if: success() || failure()
       with:
-        name: test-results-${{ matrix.build_type }}-${{ matrix.os }}
+        name: test-results_${{ matrix.build_type }}_${{ matrix.os }}
         path: build/reports/**/*.xml

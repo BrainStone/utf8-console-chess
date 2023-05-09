@@ -23,7 +23,7 @@ jobs:
     steps:
     - uses: dorny/test-reporter@v1
       with:
-        artifact: test-results-${{ matrix.build_type }}-${{ matrix.os }}
+        artifact: test-results_${{ matrix.build_type }}_${{ matrix.os }}
         name: GTest Tests
         path: '**/*.xml'
         reporter: java-junit
