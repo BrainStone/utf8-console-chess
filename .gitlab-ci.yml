@@ -46,9 +46,9 @@ variables:
     artifacts:
         when: always
         paths:
-            - build/reports/*.xml
+            - build/reports/**/*.xml
         reports:
-            junit: build/reports/*.xml
+            junit: build/reports/**/*.xml
 
 .package:
     stage: package

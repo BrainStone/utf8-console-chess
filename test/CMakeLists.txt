@@ -32,6 +32,8 @@ project(u8cc_test CXX)
 file(GLOB_RECURSE test_sources *.cpp *.hpp)
 
 # Create test executable and let be discoverable 
+set(DART_ALWAYS_COMPILE_TESTS ON CACHE BOOL "" FORCE)
+
 enable_testing()
 add_executable(${PROJECT_NAME} ${test_sources})
 gtest_discover_tests(${PROJECT_NAME} XML_OUTPUT_DIR ${CMAKE_BINARY_DIR}/reports)
