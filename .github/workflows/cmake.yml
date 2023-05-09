@@ -35,7 +35,7 @@ jobs:
       continue-on-error: true
     
     # upload test results
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v3
       if: success() || failure()
       with:
         name: test-results
